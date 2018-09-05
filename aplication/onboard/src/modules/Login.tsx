@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Button, Card, CardSection, Input } from './'
+import { Button, Card, CardSection, Input } from '../components'
 import { bool } from 'prop-types';
 
 // import TextBox from './TextBox'
@@ -45,7 +45,7 @@ class Login extends Component {
                     placeholder='olar@taqtile.com'
                     Tag={'Email'}
                     value={this.state.email}
-                    onChangeText={ email => this.setState({email})}
+                    onChangeText={ (email: string) => this.setState({email})}
                     />
                 </CardSection>
 
@@ -56,7 +56,7 @@ class Login extends Component {
                     placeholder='S2'
                     Tag={'Password'}
                     value={this.state.password}
-                    onChangeText={ password => this.setState({password})}
+                    onChangeText={ (password: string) => this.setState({password})}
                     />
                 </CardSection>
 

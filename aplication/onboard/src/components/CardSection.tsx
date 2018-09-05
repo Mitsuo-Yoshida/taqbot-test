@@ -1,8 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 
+interface CardSectionProps {
+    children: React.ReactNode;
+}
 
-const CardSection = (props) => {
+const CardSection = (props: CardSectionProps) => {
     return (
         <View style = {styles.containerStyle}>
             {props.children}
@@ -10,7 +13,7 @@ const CardSection = (props) => {
     );
 };
 
-const styles = {
+const styles : any = {
     containerStyle: {
         borderBottomWidth: 1,
         padding: 5,

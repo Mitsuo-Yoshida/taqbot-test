@@ -1,9 +1,13 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native'
-import { Card } from './';
+import { Card } from './Card';
 
+interface ButtonProps {
+    onPress: () => void;
+    buttonTitle: string;
+}
 
-const Button = (props) =>{
+const Button = (props: ButtonProps) =>{
     return(
         <TouchableOpacity onPress={props.onPress} style={ styles.buttonStyle }>
             <Text style={ styles.textStyle}>{props.buttonTitle}</Text>
@@ -11,7 +15,7 @@ const Button = (props) =>{
     );
 };
 
-const styles = {
+const styles: any = {
     buttonStyle: {
         flex: 1,
         alignSelf: 'stretch',
@@ -30,5 +34,6 @@ const styles = {
         paddingTop: 10,
         paddingBottom: 10
     }
-}
+};
+
 export { Button }; 

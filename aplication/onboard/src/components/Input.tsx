@@ -1,23 +1,31 @@
 import React from 'react';
 import { Text, View, TextInput } from 'react-native';
 
-const Input = ({Tag, value, onChangeText, placeholder, secureTextEntry, valid}) => {
+interface InputProps {
+    Tag: string;
+    value: string;
+    onChangeText: () => void; 
+    placeholder: string;
+    secureTextEntry: boolean;
+}
+
+const Input = (props: InputProps) => {
     const { inputStyle, tagStyle, containerStyle} = styles;
     
     return (
         <View style={containerStyle}>
              
             <Text style={tagStyle}>    
-                {Tag} 
+                {props.Tag} 
             </Text>
 
             <TextInput
-                secureTextEntry={secureTextEntry}
-                placeholder={placeholder}
+                secureTextEntry={props.secureTextEntry}
+                placeholder={props.placeholder}
                 autoCorrect={false}
                 style={inputStyle}
-                value={value}
-                onChangeText={ onChangeText}
+                value={props.value}
+                onChangeText={props.onChangeText}
             />
 
         </View>
@@ -25,7 +33,7 @@ const Input = ({Tag, value, onChangeText, placeholder, secureTextEntry, valid}) 
 };
 
 
-const styles = {
+const styles: any = {
     inputStyle: {
         color: '#000',
         paddingRight: 5,

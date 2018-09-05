@@ -1,7 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 
-const Card = (props) => {
+interface CardProps {
+    children: React.ReactNode;
+}
+
+
+const Card = (props: CardProps) => {
     return (
         <View style={styles.containerStyle}>
             {props.children}
