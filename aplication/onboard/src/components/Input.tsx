@@ -4,12 +4,12 @@ import { Text, View, TextInput } from 'react-native';
 interface InputProps {
     Tag: string;
     value: string;
-    onChangeText: () => void; 
+    onChangeText: (value: string) => void; 
     placeholder: string;
     secureTextEntry: boolean;
 }
 
-const Input = (props: InputProps) => {
+export const Input = (props: InputProps) => {
     const { inputStyle, tagStyle, containerStyle} = styles;
     
     return (
@@ -55,4 +55,3 @@ const styles: any = {
     }
 }
 
-export { Input };

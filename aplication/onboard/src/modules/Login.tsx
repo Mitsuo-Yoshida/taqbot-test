@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Button, Card, CardSection, Input } from '../components'
+import { Button, Card, CardSection, Input, Spinner } from '../components'
 import { bool } from 'prop-types';
 
 // import TextBox from './TextBox'
@@ -40,7 +40,6 @@ class Login extends Component {
             <Card>
                 <CardSection>
                     <Input 
-                    valid = {this.validEmail}
                     secureTextEntry = {false}
                     placeholder='olar@taqtile.com'
                     Tag={'Email'}
@@ -51,7 +50,6 @@ class Login extends Component {
 
                 <CardSection>
                     <Input 
-                    valid = {this.validPassword}
                     secureTextEntry = {true}
                     placeholder='S2'
                     Tag={'Password'}
@@ -61,17 +59,22 @@ class Login extends Component {
                 </CardSection>
 
                 <CardSection>
-                    <Button onPress={this.onButtonPress} buttonTitle='Submit' />
+                    {this.state.pressed? (  
+                        <Spinner />
+                    ):(
+                        <Button onPress={this.onButtonPress} buttonTitle='Submit' />
+                    )
+                    }
                 </CardSection>
-                    
+                
                     {this.state.pressed? (    
-                        <CardSection>
+                        <View>
                             {this.validEmail && this.validPassword ? (
-                                <Text>Valid</Text>
+                                <Text style={ styles.validStyle }>Valid</Text>
                             ) : (
-                                <Text>Invalid</Text>
+                                <Text style={ styles.invalidStyle }>Invalid</Text>
                             )}
-                        </CardSection>
+                        </View>
                         )
                         :(
                             <Text></Text>
@@ -82,10 +85,23 @@ class Login extends Component {
     }
 };
 
-const styles = {
-    loginStyle: {
-        flexDirection: 'colunmn',
-        justifyContent: 'space-around'
+const styles:any = {
+    invalidStyle:{
+        alignSelf: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#ff0000',
+        paddingTop: 10,
+        paddingBottom: 10
+    },
+    validStyle:{
+        alignSelf: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#00ff00',
+        paddingTop: 10,
+        paddingBottom: 10
     }
+
 }
 export { Login };

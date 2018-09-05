@@ -5,7 +5,7 @@ interface CardSectionProps {
     children: React.ReactNode;
 }
 
-const CardSection = (props: CardSectionProps) => {
+export const CardSection = (props: CardSectionProps) => {
     return (
         <View style = {styles.containerStyle}>
             {props.children}
@@ -24,5 +24,3 @@ const styles : any = {
         position: 'relative'
     }
 };
-
-export { CardSection };

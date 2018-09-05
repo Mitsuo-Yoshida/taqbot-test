@@ -6,7 +6,7 @@ interface CardProps {
 }
 
 
-const Card = (props: CardProps) => {
+export const Card = (props: CardProps) => {
     return (
         <View style={styles.containerStyle}>
             {props.children}
@@ -30,5 +30,3 @@ const styles = {
         marginTop: 10
     }
 }
-
-export { Card };

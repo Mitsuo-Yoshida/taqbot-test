@@ -2,8 +2,12 @@
 import React from 'react';
 import { Text , View } from 'react-native'
 
+interface HeaderProps {
+    headerText: string;
+}
+
 // Make a component
-const Header = (props) => {
+export const Header = (props: HeaderProps) => {
     const { textStyle, viewStyle } = styles;
     
     return (
@@ -14,7 +18,7 @@ const Header = (props) => {
 }
 
 
-const styles = {
+const styles:any  = {
     textStyle: {
         fontSize: 20
     },
@@ -32,5 +36,4 @@ const styles = {
     }
 }
 
-// Make the compnent avaliable to other parts of the app
-export { Header };
+

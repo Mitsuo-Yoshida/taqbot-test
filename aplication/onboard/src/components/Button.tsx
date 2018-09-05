@@ -7,7 +7,7 @@ interface ButtonProps {
     buttonTitle: string;
 }
 
-const Button = (props: ButtonProps) =>{
+export const Button = (props: ButtonProps) =>{
     return(
         <TouchableOpacity onPress={props.onPress} style={ styles.buttonStyle }>
             <Text style={ styles.textStyle}>{props.buttonTitle}</Text>
@@ -35,5 +35,3 @@ const styles: any = {
         paddingBottom: 10
     }
 };
-
-export { Button }; 

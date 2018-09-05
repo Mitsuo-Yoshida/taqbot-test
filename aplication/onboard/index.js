@@ -1,6 +1,7 @@
 import React from 'react'
 import { AppRegistry, Text, View } from 'react-native'
-import { Login, Header } from './src/components'
+import { Login } from './src/modules/Login'
+import { Header } from './src/components'
 
 const App = () => {
     return (
