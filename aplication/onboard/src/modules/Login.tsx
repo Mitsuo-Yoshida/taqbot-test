@@ -15,21 +15,9 @@ class Login extends Component {
     onButtonPress = () => {
 
         var regexp = new RegExp('.+@.+\..+');
-        var test = regexp.test(this.state.email);
-        if (test) {
-            this.validEmail = true;
-        }
-        else {
-            this.validEmail = false;
-        }
-        if (this.state.password.length >= 4 ){
-            this.validPassword = true;
-        }
-        else{
-            this.validPassword = false;
-        }
-
-        console.log('Ólaaaaaaa');
+        this.validEmail = regexp.test(this.state.email);
+    
+        this.validPassword = (this.state.password.length >= 4 );
         
         this.setState({pressed: true});    
 

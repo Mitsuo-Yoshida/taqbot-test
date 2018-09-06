@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 
-interface CardSectionProps {
+interface cardSectionProps {
     children: React.ReactNode;
 }
 
-export const CardSection = (props: CardSectionProps) => {
+export const CardSection = (props: cardSectionProps) => {
     return (
         <View style = {styles.containerStyle}>
             {props.children}

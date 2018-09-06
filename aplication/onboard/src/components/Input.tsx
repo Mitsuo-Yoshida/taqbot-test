@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TextInput } from 'react-native';
 
-interface InputProps {
+interface inputProps {
     Tag: string;
     value: string;
     onChangeText: (value: string) => void; 
@@ -9,7 +9,7 @@ interface InputProps {
     secureTextEntry: boolean;
 }
 
-export const Input = (props: InputProps) => {
+export const Input = (props: inputProps) => {
     const { inputStyle, tagStyle, containerStyle} = styles;
     
     return (

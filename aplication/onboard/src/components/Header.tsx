@@ -2,12 +2,12 @@
 import React from 'react';
 import { Text , View } from 'react-native'
 
-interface HeaderProps {
+interface headerProps {
     headerText: string;
 }
 
 // Make a component
-export const Header = (props: HeaderProps) => {
+export const Header = (props: headerProps) => {
     const { textStyle, viewStyle } = styles;
     
     return (

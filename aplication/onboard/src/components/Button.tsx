@@ -2,12 +2,12 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native'
 import { Card } from './Card';
 
-interface ButtonProps {
+interface buttonProps {
     onPress: () => void;
     buttonTitle: string;
 }
 
-export const Button = (props: ButtonProps) =>{
+export const Button = (props: buttonProps) =>{
     return(
         <TouchableOpacity onPress={props.onPress} style={ styles.buttonStyle }>
             <Text style={ styles.textStyle}>{props.buttonTitle}</Text>
