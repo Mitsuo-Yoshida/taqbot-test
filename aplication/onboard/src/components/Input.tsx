@@ -7,13 +7,14 @@ interface inputProps {
     onChangeText: (value: string) => void; 
     placeholder: string;
     secureTextEntry: boolean;
+    borderColor: string;
 }
 
 export const Input = (props: inputProps) => {
     const { inputStyle, tagStyle, containerStyle} = styles;
     
     return (
-        <View style={containerStyle}>
+        <View style={ [containerStyle, { borderColor: props.borderColor }] }>
              
             <Text style={tagStyle}>    
                 {props.Tag} 
@@ -48,9 +49,14 @@ const styles: any = {
         flex: 1
     },
     containerStyle: {
+        borderWidth: 1,
+        padding: 5,
+        backgroundColor: '#fff',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        position: 'relative',
         height: 40,
         flex: 1,
-        flexDirection: 'row',
         align: 'center'
     }
 }
