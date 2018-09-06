@@ -3,12 +3,9 @@ import { Component } from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { Button, Card, CardSection, Input, Spinner } from '../components'
-import { bool } from 'prop-types';
+import { NavigationProps } from './react-native-navigation';
 
-// import TextBox from './TextBox'
-
-
-class Login extends Component {
+class Login extends Component<NavigationProps> {
     state = { email: '', password: '', pressed: false, error: ''  };
     validEmail = false;
     validPassword = false;
@@ -57,6 +54,11 @@ class Login extends Component {
                     token: response.data.data.token,
                 };
                 AsyncStorage.setItem('USER', JSON.stringify(user), () => {});
+
+                this.props.navigator!.push({
+                    screen: 'Welcome',
+                    title: 'Welcome',
+                });
                 
             })
             .catch(error => {
