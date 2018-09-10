@@ -1,25 +1,77 @@
 import React from 'react';
 import { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
+import axios from 'axios';
 import { Button, Card, CardSection, Input, Spinner } from '../components'
-import { bool } from 'prop-types';
+import { NavigationProps } from './react-native-navigation';
 
-// import TextBox from './TextBox'
-
-
-class Login extends Component {
-    state = { email: '', password: '', pressed: false  };
+class Login extends Component<NavigationProps> {
+    state = { email: '', password: '', pressed: false, error: ''  };
     validEmail = false;
     validPassword = false;
-
+    validLogin = false;
+    emailBorderColor = '#ddd';
+    passwordBorderColor = '#ddd';
     onButtonPress = () => {
 
         var regexp = new RegExp('.+@.+\..+');
         this.validEmail = regexp.test(this.state.email);
-    
-        this.validPassword = (this.state.password.length >= 4 );
+        if(this.validEmail){
+            this.emailBorderColor = '#ddd';
+        }
+        else{
+            this.emailBorderColor = '#ff0000';
+        }
         
-        this.setState({pressed: true});    
+        this.validPassword = (this.state.password.length >= 4 );
+        if(this.validPassword){
+            this.passwordBorderColor = '#ddd';
+        }
+        else{
+            this.passwordBorderColor = '#ff0000';
+        }
+
+        this.validLogin = this.validEmail && this.validPassword;
+
+        if ( this.validLogin ){
+            this.setState({pressed: true});
+            axios.post( 
+                'https://tq-template-server-sample.herokuapp.com/authenticate',
+                {
+                    password: this.state.password,
+                    email: this.state.email,
+                    rememberMe: false
+                }
+            )
+            .then(response => {
+                this.setState({error: ''});
+                this.setState({pressed: false});
+                this.setState({email: ''});
+                this.setState({password: ''});
+                
+                let user = {
+                    name: response.data.data.user.name,
+                    token: response.data.data.token,
+                };
+                AsyncStorage.setItem('USER', JSON.stringify(user), () => {});
+
+                this.props.navigator!.push({
+                    screen: 'Welcome',
+                    title: 'Welcome',
+                });
+                
+            })
+            .catch(error => {
+                this.setState({error: error.response.data.errors[0].message});
+                this.setState({pressed: false});
+                this.setState({password: ''});
+            })
+            ;
+        }
+        else{
+            this.setState({password: ''});
+        }
+            
 
     }
 
@@ -28,6 +80,7 @@ class Login extends Component {
             <Card>
                 <CardSection>
                     <Input 
+                    borderColor= {this.emailBorderColor}
                     secureTextEntry = {false}
                     placeholder='olar@taqtile.com'
                     Tag={'Email'}
@@ -38,6 +91,7 @@ class Login extends Component {
 
                 <CardSection>
                     <Input 
+                    borderColor= {this.passwordBorderColor}
                     secureTextEntry = {true}
                     placeholder='S2'
                     Tag={'Password'}
@@ -47,7 +101,7 @@ class Login extends Component {
                 </CardSection>
 
                 <CardSection>
-                    {this.state.pressed? (  
+                    {(this.state.pressed)? (  
                         <Spinner />
                     ):(
                         <Button onPress={this.onButtonPress} buttonTitle='Submit' />
@@ -55,19 +109,8 @@ class Login extends Component {
                     }
                 </CardSection>
                 
-                    {this.state.pressed? (    
-                        <View>
-                            {this.validEmail && this.validPassword ? (
-                                <Text style={ styles.validStyle }>Valid</Text>
-                            ) : (
-                                <Text style={ styles.invalidStyle }>Invalid</Text>
-                            )}
-                        </View>
-                        )
-                        :(
-                            <Text></Text>
-                        )
-                    }
+                <Text style={ styles.invalidStyle }>{this.state.error}</Text>
+                
             </Card>
         );
     }
