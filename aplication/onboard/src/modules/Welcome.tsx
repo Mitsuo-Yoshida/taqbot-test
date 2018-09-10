@@ -70,7 +70,7 @@ class Welcome extends Component<NavigationProps>{
             screen: 'Detail',
             title: 'Detail',
             passProps: {
-                user: user
+                id: user.id
             }
         });
     }
