@@ -15,7 +15,6 @@ interface user{
     updatedAt: string;
 }
 
-const ITEMS_PER_PAGE = 5; // what is the batch size you want to load.
 
 class Welcome extends Component{
     state = { token: '', data: [], page: 0, pressed:false, error:'' };
@@ -52,13 +51,10 @@ class Welcome extends Component{
         )
         .then(response => {
             const data = this.state.data;
-            const nextPage = this.state.page + 1;
-            const start = this.state.page*ITEMS_PER_PAGE;
-            const end = (nextPage)*ITEMS_PER_PAGE-1;
         
             const newData = response.data.data;
 
-            this.setState({data: [...data, ...newData], page: nextPage, error: '', pressed: false});
+            this.setState({data: [...data, ...newData], page: this.state.page+1, error: '', pressed: false});
             
         })
         .catch(error => {
