@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { Text, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { Button, Card, CardSection, Input, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';

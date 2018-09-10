@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native'
-import { Card } from './Card';
 
 interface buttonProps {
     onPress: () => void;

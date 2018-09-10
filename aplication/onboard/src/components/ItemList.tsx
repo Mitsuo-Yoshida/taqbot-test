@@ -1,6 +1,5 @@
 import React from 'react';
-import { Component } from 'react';
-import { FlatList, Text, AsyncStorage, ScrollView } from 'react-native';
+import { Text } from 'react-native';
 import { Card, CardSection } from '../components'
 
 
