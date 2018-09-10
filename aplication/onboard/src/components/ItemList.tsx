@@ -1,30 +1,38 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { Card, CardSection } from '../components'
 
 
-
-interface user {
+interface user{
     id: string;
     name: string;
     role: string;
+    active: boolean;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
 }
+
 interface userProp {
     user: user;
+    onPress: () => void;
 }
 
 
 
 const ItemList = (props: userProp)  => {
     return ( 
-        <Card>
-            <CardSection>
-                <Text style = { styles.userNameStyle } >{props.user.name}</Text>
-            </CardSection>
-            <CardSection>
-                <Text style = { styles.userRoleStyle } >{props.user.role}</Text>
-            </CardSection>
-        </Card>
+        <TouchableOpacity
+            onPress={props.onPress}>
+            <Card>
+                <CardSection>
+                    <Text style = { styles.userNameStyle } >{props.user.name}</Text>
+                </CardSection>
+                <CardSection>
+                    <Text style = { styles.userRoleStyle } >{props.user.role}</Text>
+                </CardSection>
+            </Card>
+        </TouchableOpacity>
     );
 };
 

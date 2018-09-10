@@ -3,6 +3,7 @@ import { Component } from 'react';
 import axios from 'axios';
 import { FlatList, AsyncStorage } from 'react-native';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
+import { NavigationProps } from './react-native-navigation';
 
 
 interface user{
@@ -16,7 +17,7 @@ interface user{
 }
 
 
-class Welcome extends Component{
+class Welcome extends Component<NavigationProps>{
     state = { token: '', data: [], page: 0, pressed:false, error:'' };
 
     loggedUser = {
@@ -64,9 +65,22 @@ class Welcome extends Component{
         
     }
 
+    onPress(user:user){
+        this.props.navigator!.push({
+            screen: 'Detail',
+            title: 'Detail',
+            passProps: {
+                user: user
+            }
+        });
+    }
+
     renderItem( user:user ){
         return (
-        < ItemList user = {user} />
+        < ItemList 
+            user = {user}
+            onPress = {() => this.onPress(user)} 
+        />
         )
     }
     
