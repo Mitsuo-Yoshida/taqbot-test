@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { AsyncStorage, Text } from 'react-native';
+import { Text } from 'react-native';
 import axios from 'axios';
 import { Card, CardSection, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
@@ -15,14 +15,11 @@ class Detail extends Component<NavigationProps>{
         const url=urlBase.concat(this.props.id)
         var user:{token:''};
         var token:'';
-        AsyncStorage.getItem('USER', (err, result) => {
-            if (result) {
-                user = JSON.parse(result);
-                token= user.token;
+
                 this.setState({loading:true});
                 axios.get( 
                     url, {
-                        headers: { Authorization: token }
+                        headers: { Authorization: this.props.token }
                     }
                 )
                 .then(response => {
@@ -33,11 +30,7 @@ class Detail extends Component<NavigationProps>{
                 .catch(error => {
                     this.setState({error: error.response.data});
                 })
-            }
-            else {
-                this.setState({error: err })
-            }
-        });
+            
 
         
     }

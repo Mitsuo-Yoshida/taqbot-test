@@ -57,12 +57,14 @@ class Login extends Component<NavigationProps> {
                     name: response.data.data.user.name,
                     token: response.data.data.token,
                 };
-                console.log(user);
                 AsyncStorage.setItem('USER', JSON.stringify(user), () => {});
 
                 this.props.navigator!.push({
                     screen: 'Welcome',
                     title: 'Welcome',
+                    passProps: {
+                        token: user.token
+                    }
                 });
                 
             })

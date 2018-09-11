@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { Text, AsyncStorage, StyleSheet } from 'react-native';
+import { Text,  StyleSheet } from 'react-native';
 import axios from 'axios';
 import RNPickerSelect from 'react-native-picker-select';
 import { Button, Card, CardSection, Input, Spinner } from '../components';
@@ -26,22 +26,6 @@ class Create extends Component<NavigationProps> {
             value:'admin', 
         }
     ];
-    loggedUser = {
-        name:'',
-        token:''
-    }
-    
-    componentWillMount(){
-        AsyncStorage.getItem('USER', (err, result) => {
-            if (result) {
-                this.loggedUser = JSON.parse(result);
-                this.setState({token: this.loggedUser.token })
-            }
-            else {
-                this.setState({error: 'Failed fetching user' })
-            }
-        });
-    }
 
     onCreatePress = () => {
         
@@ -86,7 +70,6 @@ class Create extends Component<NavigationProps> {
         
         if ( this.validEmail && this.validPassword && this.validRole && this.validName ){
             this.setState({pressed: true});
-            console.log(this.loggedUser);
             axios({
                 method: 'post',
                 url: 'https://tq-template-server-sample.herokuapp.com/users',
@@ -96,28 +79,18 @@ class Create extends Component<NavigationProps> {
                     name: this.state.name,
                     role: this.state.role,
                 },
-                headers: {'Authorization': this.loggedUser.token},
+                headers: {'Authorization': this.props.token},
             })
             .then(response => {
-                console.log(response);
                 this.setState({error: ''});
                 this.setState({pressed: false});
                 this.setState({email: '', password: '', name: '', role: ''});
                 
-                // let user = {
-                //     name: response.data.data.user.name,
-                //     token: response.data.data.token,
-                // };
-                // AsyncStorage.setItem('USER', JSON.stringify(user), () => {});
 
-                // this.props.navigator!.push({
-                //     screen: 'Welcome',
-                //     title: 'Welcome',
-                // });
+                this.props.navigator!.pop();
                 
             })
             .catch(error => {
-                console.log(error.response.data.errors);
                 this.setState({error: error.response.data.errors[0].message});
                 this.setState({pressed: false});
                 this.setState({password: ''});

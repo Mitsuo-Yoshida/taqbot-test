@@ -21,26 +21,9 @@ interface user{
 class Welcome extends Component<NavigationProps>{
     state = { token: '', data: [], page: 0, pressed:false, error:'' };
 
-    loggedUser = {
-        name:'',
-        token:''
-    }
-
-    componentWillMount(){
-        AsyncStorage.getItem('USER', (err, result) => {
-            if (result) {
-                this.loggedUser = JSON.parse(result);
-                this.setState({token: this.loggedUser.token })
-            this.loadMore();
-            }
-            else {
-                this.setState({token: 'Failed fetching user' })
-            }
-        });
-    }
-
     loadMore() {
         this.setState({ pressed: true });
+
         axios.get( 
             'https://tq-template-server-sample.herokuapp.com/users', {
                 params:{
@@ -49,7 +32,7 @@ class Welcome extends Component<NavigationProps>{
                         window:10
                     }
                 },
-                headers: { Authorization: this.state.token }
+                headers: { Authorization: this.props.token}//this.state.token }
             }
         )
         .then(response => {
@@ -72,7 +55,8 @@ class Welcome extends Component<NavigationProps>{
             screen: 'Detail',
             title: 'Detail',
             passProps: {
-                id: user.id
+                id: user.id,
+                token: this.props.token
             }
         });
     }
@@ -121,10 +105,12 @@ class Welcome extends Component<NavigationProps>{
     }
 
     onCreatePress = () => {
-        console.log(this.props.navigator);
         this.props.navigator!.push({
             screen: 'Create',
             title: 'Create',
+            passProps: {
+                token:this.props.token
+            }
         });
     }
 
