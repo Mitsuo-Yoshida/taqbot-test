@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { Text, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { Button, Card, CardSection, Input, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
@@ -12,8 +12,9 @@ class Login extends Component<NavigationProps> {
     validLogin = false;
     emailBorderColor = '#ddd';
     passwordBorderColor = '#ddd';
-    onButtonPress = () => {
-
+    
+    onSignPress = () => {
+        var errors = '';
         var regexp = new RegExp('.+@.+\..+');
         this.validEmail = regexp.test(this.state.email);
         if(this.validEmail){
@@ -21,6 +22,7 @@ class Login extends Component<NavigationProps> {
         }
         else{
             this.emailBorderColor = '#ff0000';
+            errors = errors.concat('Email must follow an email format\n');
         }
         
         this.validPassword = (this.state.password.length >= 4 );
@@ -29,6 +31,8 @@ class Login extends Component<NavigationProps> {
         }
         else{
             this.passwordBorderColor = '#ff0000';
+            errors = errors.concat('Password must be at least 4 characters long\n')
+
         }
 
         this.validLogin = this.validEmail && this.validPassword;
@@ -58,6 +62,9 @@ class Login extends Component<NavigationProps> {
                 this.props.navigator!.push({
                     screen: 'Welcome',
                     title: 'Welcome',
+                    passProps: {
+                        token: user.token
+                    }
                 });
                 
             })
@@ -69,7 +76,7 @@ class Login extends Component<NavigationProps> {
             ;
         }
         else{
-            this.setState({password: ''});
+            this.setState({password: '', error: errors});
         }
             
 
@@ -93,7 +100,7 @@ class Login extends Component<NavigationProps> {
                     <Input 
                     borderColor= {this.passwordBorderColor}
                     secureTextEntry = {true}
-                    placeholder='S2'
+                    placeholder='S2 S2'
                     Tag={'Password'}
                     value={this.state.password}
                     onChangeText={ (password: string) => this.setState({password})}
@@ -104,7 +111,7 @@ class Login extends Component<NavigationProps> {
                     {(this.state.pressed)? (  
                         <Spinner />
                     ):(
-                        <Button onPress={this.onButtonPress} buttonTitle='Submit' />
+                        <Button onPress={this.onSignPress} buttonTitle='Submit' />
                     )
                     }
                 </CardSection>
