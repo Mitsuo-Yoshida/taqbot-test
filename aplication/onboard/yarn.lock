@@ -3330,6 +3330,10 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+
 lodash.pad@^4.1.0:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/lodash.pad/-/lodash.pad-4.5.1.tgz#4330949a833a7c8da22cc20f6a26c4d59debba70"
@@ -4220,6 +4224,12 @@ react-native-navigation@^1.1.485:
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.485.tgz#99b469ded59589888ddb76f0b2ebf8258b24b9e7"
   dependencies:
     lodash "4.x.x"
+
+react-native-picker-select@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-picker-select/-/react-native-picker-select-4.3.0.tgz#5df7744b7d9e36dc10c2046bb5c9d056a4e6b62a"
+  dependencies:
+    lodash.isequal "^4.5.0"
 
 react-native-typescript-transformer@^1.2.10:
   version "1.2.10"

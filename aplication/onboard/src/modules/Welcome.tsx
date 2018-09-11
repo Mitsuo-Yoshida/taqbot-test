@@ -1,7 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import axios from 'axios';
-import { FlatList, AsyncStorage } from 'react-native';
+import { FlatList, AsyncStorage, View } from 'react-native';
+import ActionButton from 'react-native-action-button';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
 
@@ -30,6 +31,7 @@ class Welcome extends Component<NavigationProps>{
             if (result) {
                 this.loggedUser = JSON.parse(result);
                 this.setState({token: this.loggedUser.token })
+            this.loadMore();
             }
             else {
                 this.setState({token: 'Failed fetching user' })
@@ -100,19 +102,51 @@ class Welcome extends Component<NavigationProps>{
             )
         }
     }
+
+    renderHeader( ){
+        if (this.state.pressed){
+            return (
+                <CardSection>    
+                    <Spinner/>
+                </CardSection>
+            )
+        }
+        else{
+            return (
+                <CardSection>    
+                    <Button onPress={()=>this.loadMore()} buttonTitle='Load More' />
+                </CardSection>
+            )
+        }
+    }
+
+    onCreatePress = () => {
+        console.log(this.props.navigator);
+        this.props.navigator!.push({
+            screen: 'Create',
+            title: 'Create',
+        });
+    }
+
     render(){
         
         return ( 
-            <Card>
-                <CardSection>
-                    <FlatList 
-                        data = {this.state.data}
-                        renderItem={({item})=> this.renderItem(item)}
-                        keyExtractor={ user => String(user.id)}
-                        ListFooterComponent={ () => this.renderFooter() }
-                    />
-                </CardSection>    
-            </Card>
+            <View>
+                <Card>
+                    <CardSection>
+                        <FlatList 
+                            data = {this.state.data}
+                            renderItem={({item})=> this.renderItem(item)}
+                            keyExtractor={ user => String(user.id)}
+                            ListFooterComponent={ () => this.renderFooter() }
+                        />
+                    </CardSection>    
+                </Card>
+                <ActionButton
+                    buttonColor='#0000ff'
+                    onPress={() => this.onCreatePress()}
+                />
+            </View>
         );
     }
 };
