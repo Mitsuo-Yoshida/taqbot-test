@@ -2,38 +2,47 @@ import React from 'react';
 import { Component } from 'react';
 import { Text } from 'react-native';
 import axios from 'axios';
-import { Card, CardSection, Spinner } from '../components'
+import { Card, CardSection, Spinner, Button } from '../components'
 import { NavigationProps } from './react-native-navigation';
-
 
 class Detail extends Component<NavigationProps>{
     state = {error: '', userDetail: {}, loading: false};
     
-    
     componentWillMount(){
         const urlBase='https://tq-template-server-sample.herokuapp.com/users/';
-        const url=urlBase.concat(this.props.id)
-        var user:{token:''};
-        var token:'';
+        const url=urlBase.concat(this.props.id);
 
-                this.setState({loading:true});
-                axios.get( 
-                    url, {
-                        headers: { Authorization: this.props.token }
-                    }
-                )
-                .then(response => {
-                    
-                    this.setState({userDetail: response.data.data, loading: false});
-                    
-                })
-                .catch(error => {
-                    this.setState({error: error.response.data});
-                })
+        this.setState({loading:true});
+        axios.get( 
+            url, {
+                headers: { Authorization: this.props.token }
+            }
+        )
+        .then(response => {
             
-
-        
+            this.setState({userDetail: response.data.data, loading: false});
+            
+        })
+        .catch(error => {
+            this.setState({error: error.response.data});
+        })
     }
+
+    onEditPress = () => {
+        this.props.navigator!.push({
+            screen: 'Create',
+            title: 'Edit',
+            passProps: {
+                token: this.props.token,
+                name: this.state.userDetail.name,
+                email: this.state.userDetail.email,
+                role: this.state.userDetail.role,
+                id: this.props.id,
+                edition: true
+            }
+        });
+    }
+
     render(){
         if(this.state.loading){
             return <Spinner/>
@@ -53,13 +62,14 @@ class Detail extends Component<NavigationProps>{
                         <Text style = { styles.fieldStyle } >Role:</Text> 
                         <Text style = { styles.contentStyle } >{this.state.userDetail.role }</Text>
                     </CardSection>
+                    <CardSection>
+                        <Button onPress={this.onEditPress} buttonTitle='Edit' />
+                    </CardSection>
                 </Card>
             )
         }
     }
 }
-
-  
 
 const styles:any = {
     fieldStyle:{

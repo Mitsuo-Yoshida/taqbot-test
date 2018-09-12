@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import axios from 'axios';
-import { FlatList, AsyncStorage, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
@@ -20,6 +20,10 @@ interface user{
 
 class Welcome extends Component<NavigationProps>{
     state = { token: '', data: [], page: 0, pressed:false, error:'' };
+
+    componentWillMount(){
+        this.loadMore();
+    }
 
     loadMore() {
         this.setState({ pressed: true });
@@ -109,13 +113,13 @@ class Welcome extends Component<NavigationProps>{
             screen: 'Create',
             title: 'Create',
             passProps: {
-                token:this.props.token
+                token:this.props.token,
+                edition: false
             }
         });
     }
 
     render(){
-        
         return ( 
             <View>
                 <Card>
@@ -136,11 +140,6 @@ class Welcome extends Component<NavigationProps>{
         );
     }
 };
-
-
-
-
-  
 
 const styles:any = {
     nameStyle:{

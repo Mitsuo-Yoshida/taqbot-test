@@ -8,14 +8,19 @@ import { NavigationProps } from './react-native-navigation';
 
 class Create extends Component<NavigationProps> {
     state = { name: '', email: '', password: '', pressed: false, error: '', role: '', isVisible: false };
-    validEmail = false;
-    validPassword = false;
-    validCreate = false;
-    validName = false;
-    validRole = false;
+    validEmail = true;
+    validPassword = true;
+    validCreate = true;
+    validName = true;
+    validRole = true;
+    buttonName = '';
+    method = '';
     emailBorderColor = '#ddd';
     nameBorderColor = '#ddd';
     passwordBorderColor = '#ddd';
+    url = '';
+    urlBase = 'https://tq-template-server-sample.herokuapp.com/users';
+    data = {}
     roles = [
         {
             label:'user', 
@@ -26,6 +31,18 @@ class Create extends Component<NavigationProps> {
             value:'admin', 
         }
     ];
+
+    componentWillMount(){
+        if(this.props.edition){
+            this.setState({ name: this.props.name, email: this.props.email, role: this.props.role });
+            this.buttonName = 'Edit';
+            this.url = this.urlBase.concat(String('/'+this.props.id));
+        }
+        else{
+            this.buttonName = 'Create';
+            this.url = this.urlBase;
+        }
+    }
 
     onCreatePress = () => {
         
@@ -52,56 +69,86 @@ class Create extends Component<NavigationProps> {
             erros = erros.concat('Email must follow an email format\n');
         }
         
-        this.validPassword = (this.state.password.length >= 4 );
+        if(this.props.edition == false){
+            this.validPassword = (this.state.password.length >= 7 );
 
-        if(this.validPassword){
-            this.passwordBorderColor = '#ddd';
-        }
-        else{
-            this.passwordBorderColor = '#ff0000';
-            erros = erros.concat('Password must be at least 4 characters long\n');
+            if(this.validPassword){
+                this.passwordBorderColor = '#ddd';
+            }
+            else{
+                this.passwordBorderColor = '#ff0000';
+                erros = erros.concat('Password must be at least 4 characters long\n');
+            }
         }
 
         this.validRole = (this.state.role != '');
         if( this.validRole == false){
-            erros = erros.concat('Role mus be specified\n');
+            erros = erros.concat('Role must be specified\n');
         }
 
         
         if ( this.validEmail && this.validPassword && this.validRole && this.validName ){
-            this.setState({pressed: true});
-            axios({
-                method: 'post',
-                url: 'https://tq-template-server-sample.herokuapp.com/users',
-                data: {
+            if(this.props.edition){
+                this.data = {
+                    email: this.state.email,
+                    name: this.state.name,
+                    role: this.state.role,
+                };
+                this.method = 'put';
+            }
+            else{
+                this.data = {
                     password: this.state.password,
                     email: this.state.email,
                     name: this.state.name,
                     role: this.state.role,
-                },
+                };
+                this.method = 'post';
+            }
+
+            this.setState({pressed: true});
+            axios({
+                method: this.method,
+                url: this.url,
+                data: this.data,
                 headers: {'Authorization': this.props.token},
             })
             .then(response => {
                 this.setState({error: ''});
                 this.setState({pressed: false});
                 this.setState({email: '', password: '', name: '', role: ''});
-                
 
-                this.props.navigator!.pop();
-                
+                this.props.navigator!.pop();          
             })
             .catch(error => {
                 this.setState({error: error.response.data.errors[0].message});
                 this.setState({pressed: false});
                 this.setState({password: ''});
-            })
-            ;
+            });
         }
         else{
             this.setState({password: '', error: erros});
         }
-            
+    }
 
+    renderPassword(){
+        if(this.props.edition){
+            return null;
+        }
+        else{
+            return ( 
+                <CardSection>
+                    <Input 
+                    borderColor= {this.passwordBorderColor}
+                    secureTextEntry = {true}
+                    placeholder='S2 S2'
+                    Tag={'Password'}
+                    value={this.state.password}
+                    onChangeText={ (password: string) => this.setState({password})}
+                    />
+                </CardSection>
+            )
+        }
     }
 
     render () {
@@ -129,17 +176,7 @@ class Create extends Component<NavigationProps> {
                     />
                 </CardSection>
 
-                <CardSection>
-                    <Input 
-                    borderColor= {this.passwordBorderColor}
-                    secureTextEntry = {true}
-                    placeholder='S2 S2'
-                    Tag={'Password'}
-                    value={this.state.password}
-                    onChangeText={ (password: string) => this.setState({password})}
-                    />
-                </CardSection>
-
+                {this.renderPassword()}
                 
                 <RNPickerSelect
                     placeholder={{
@@ -160,7 +197,7 @@ class Create extends Component<NavigationProps> {
                     {(this.state.pressed)? (  
                         <Spinner />
                     ):(
-                        <Button onPress={this.onCreatePress} buttonTitle='Create' />
+                        <Button onPress={this.onCreatePress} buttonTitle={this.buttonName} />
                     )
                     }
                 </CardSection>
