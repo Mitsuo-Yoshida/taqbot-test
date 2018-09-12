@@ -5,7 +5,11 @@ import axios from 'axios';
 import { Button, Card, CardSection, Input, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
 
-class Login extends Component<NavigationProps> {
+interface loginProps{
+    navigator?: NavigationProps
+}
+
+class Login extends Component<loginProps> {
     state = { email: '', password: '', pressed: false, error: ''  };
     validEmail = false;
     validPassword = false;
@@ -78,8 +82,6 @@ class Login extends Component<NavigationProps> {
         else{
             this.setState({password: '', error: errors});
         }
-            
-
     }
 
     render () {

@@ -1,5 +1,3 @@
-import React from 'react'
-import { AppRegistry, Text, View } from 'react-native'
 import { Login } from './src/modules/Login'
 import { Welcome } from './src/modules/Welcome'
 import { Detail } from './src/modules/Detail'

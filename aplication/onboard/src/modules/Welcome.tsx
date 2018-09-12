@@ -6,8 +6,20 @@ import ActionButton from 'react-native-action-button';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
 
+interface welcomeProps {
+    token: string,
+    navigator?: NavigationProps
+}
 
-interface user{
+interface welcomeState{
+    token: string,
+    data: user[],
+    pressed: boolean,
+    error: string,
+    page: number
+}
+
+interface user {
     id: string;
     name: string;
     role: string;
@@ -17,11 +29,11 @@ interface user{
     updatedAt: string;
 }
 
+class Welcome extends Component<welcomeProps, welcomeState> {
+    emptyInitialData: user[] = [];
+    state = { token: '', page: 0, data: this.emptyInitialData, pressed:false, error:'' };
 
-class Welcome extends Component<NavigationProps>{
-    state = { token: '', data: [], page: 0, pressed:false, error:'' };
-
-    componentWillMount(){
+    componentWillMount() {
         this.loadMore();
     }
 
@@ -36,7 +48,7 @@ class Welcome extends Component<NavigationProps>{
                         window:10
                     }
                 },
-                headers: { Authorization: this.props.token}//this.state.token }
+                headers: { Authorization: this.props.token}
             }
         )
         .then(response => {
@@ -44,17 +56,17 @@ class Welcome extends Component<NavigationProps>{
         
             const newData = response.data.data;
 
-            this.setState({data: [...data, ...newData], page: this.state.page+1, error: '', pressed: false});
+            this.setState({ data: [...data, ...newData], page: this.state.page+1, error: '', pressed: false });
             
         })
         .catch(error => {
-            this.setState({error: error.response.data.errors[0].message});
-            this.setState({pressed: false});
+            this.setState({ error: error.response.data.errors[0].message });
+            this.setState({ pressed: false });
         })
         
     }
 
-    onPress(user:user){
+    onPress(user:user) {
         this.props.navigator!.push({
             screen: 'Detail',
             title: 'Detail',
@@ -65,17 +77,17 @@ class Welcome extends Component<NavigationProps>{
         });
     }
 
-    renderItem( user:user ){
+    renderItem( user:user ) {
         return (
         < ItemList 
             user = {user}
-            onPress = {() => this.onPress(user)} 
+            onPress = { () => this.onPress(user) } 
         />
         )
     }
     
-    renderFooter( ){
-        if (this.state.pressed){
+    renderFooter() {
+        if (this.state.pressed) {
             return (
                 <CardSection>    
                     <Spinner/>
@@ -91,8 +103,8 @@ class Welcome extends Component<NavigationProps>{
         }
     }
 
-    renderHeader( ){
-        if (this.state.pressed){
+    renderHeader() {
+        if (this.state.pressed) {
             return (
                 <CardSection>    
                     <Spinner/>
@@ -119,7 +131,7 @@ class Welcome extends Component<NavigationProps>{
         });
     }
 
-    render(){
+    render() {
         return ( 
             <View>
                 <Card>

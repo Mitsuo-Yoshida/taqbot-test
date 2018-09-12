@@ -6,7 +6,17 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Button, Card, CardSection, Input, Spinner } from '../components';
 import { NavigationProps } from './react-native-navigation';
 
-class Create extends Component<NavigationProps> {
+interface createProps{
+    edition: boolean,
+    name: string,
+    email: string,
+    role: string,
+    token: string,
+    id: string,
+    navigator?: NavigationProps
+}
+
+class Create extends Component<createProps> {
     state = { name: '', email: '', password: '', pressed: false, error: '', role: '', isVisible: false };
     validEmail = true;
     validPassword = true;
@@ -36,7 +46,7 @@ class Create extends Component<NavigationProps> {
         if(this.props.edition){
             this.setState({ name: this.props.name, email: this.props.email, role: this.props.role });
             this.buttonName = 'Edit';
-            this.url = this.urlBase.concat(String('/'+this.props.id));
+            this.url = this.urlBase.concat('/'+this.props.id);
         }
         else{
             this.buttonName = 'Create';

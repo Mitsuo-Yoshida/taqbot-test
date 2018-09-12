@@ -5,8 +5,22 @@ import axios from 'axios';
 import { Card, CardSection, Spinner, Button } from '../components'
 import { NavigationProps } from './react-native-navigation';
 
-class Detail extends Component<NavigationProps>{
-    state = {error: '', userDetail: {}, loading: false};
+interface detailProps{
+    id: string,
+    token: string,
+    navigator?: NavigationProps
+}
+
+class Detail extends Component<detailProps>{
+    state = {
+        error: '', 
+        userDetail: {
+            name: '',
+            email: '',
+            role: '',
+        }, 
+        loading: false
+    };
     
     componentWillMount(){
         const urlBase='https://tq-template-server-sample.herokuapp.com/users/';
