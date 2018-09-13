@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import axios from 'axios';
-import { FlatList, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
@@ -160,5 +160,16 @@ class Welcome extends Component<welcomeProps, welcomeState> {
         );
     }
 };
+
+const styles:any = {
+    invalidStyle:{
+        alignSelf: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#ff0000',
+        paddingTop: 10,
+        paddingBottom: 10
+    }
+}
 
 export { Welcome };

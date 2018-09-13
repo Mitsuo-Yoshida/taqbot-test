@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { Text } from 'react-native';
 import axios from 'axios';
-import { Card, CardSection, Spinner, Button } from '../components'
+import { Card, CardSection, Spinner, Button } from '../components';
 import { NavigationProps } from './react-native-navigation';
 import FlashMessage from "react-native-flash-message";
 
@@ -86,7 +86,7 @@ class Detail extends Component<detailProps>{
                     </CardSection>
 
                     <Text style={ styles.invalidStyle }>{this.state.error}</Text>
-                    
+
                     <FlashMessage ref={(message:any)=> this.message = message} position='top'/>
                 </Card>
             )
