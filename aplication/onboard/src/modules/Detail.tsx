@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import axios from 'axios';
 import { Card, CardSection, Spinner, Button } from '../components'
 import { NavigationProps } from './react-native-navigation';
+import FlashMessage from "react-native-flash-message";
 
 interface detailProps{
     id: string,
@@ -22,6 +23,8 @@ class Detail extends Component<detailProps>{
         loading: false
     };
     
+    message: any;
+
     componentWillMount(){
         const urlBase='https://tq-template-server-sample.herokuapp.com/users/';
         const url=urlBase.concat(this.props.id);
@@ -33,12 +36,10 @@ class Detail extends Component<detailProps>{
             }
         )
         .then(response => {
-            
             this.setState({userDetail: response.data.data, loading: false});
-            
         })
         .catch(error => {
-            this.setState({error: error.response.data});
+            this.setState({error: error.response.data, loading: false});
         })
     }
 
@@ -52,6 +53,7 @@ class Detail extends Component<detailProps>{
                 email: this.state.userDetail.email,
                 role: this.state.userDetail.role,
                 id: this.props.id,
+                message: (gah:{message:string, type:string}) => this.message.showMessage(gah),
                 edition: true
             }
         });
@@ -68,17 +70,24 @@ class Detail extends Component<detailProps>{
                         <Text style = { styles.fieldStyle } >Name:</Text> 
                         <Text style = { styles.contentStyle } >{this.state.userDetail.name}</Text>
                     </CardSection>
+
                     <CardSection>
                         <Text style = { styles.fieldStyle } >Email:</Text> 
                         <Text style = { styles.contentStyle } >{this.state.userDetail.email }</Text>
                     </CardSection>
+
                     <CardSection>
                         <Text style = { styles.fieldStyle } >Role:</Text> 
                         <Text style = { styles.contentStyle } >{this.state.userDetail.role }</Text>
                     </CardSection>
+
                     <CardSection>
                         <Button onPress={this.onEditPress} buttonTitle='Edit' />
                     </CardSection>
+
+                    <Text style={ styles.invalidStyle }>{this.state.error}</Text>
+                    
+                    <FlashMessage ref={(message:any)=> this.message = message} position='top'/>
                 </Card>
             )
         }
@@ -103,6 +112,14 @@ const styles:any = {
         paddingTop: 10,
         paddingBottom: 10, 
         flex: 3
+    },
+    invalidStyle:{
+        alignSelf: 'center',
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#ff0000',
+        paddingTop: 10,
+        paddingBottom: 10
     }
 }
 

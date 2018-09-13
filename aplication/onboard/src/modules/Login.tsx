@@ -70,14 +70,12 @@ class Login extends Component<loginProps> {
                         token: user.token
                     }
                 });
-                
             })
             .catch(error => {
                 this.setState({error: error.response.data.errors[0].message});
                 this.setState({pressed: false});
                 this.setState({password: ''});
-            })
-            ;
+            });
         }
         else{
             this.setState({password: '', error: errors});
@@ -114,10 +112,9 @@ class Login extends Component<loginProps> {
                         <Spinner />
                     ):(
                         <Button onPress={this.onSignPress} buttonTitle='Submit' />
-                    )
-                    }
+                    )}
                 </CardSection>
-                
+
                 <Text style={ styles.invalidStyle }>{this.state.error}</Text>
                 
             </Card>
@@ -133,15 +130,6 @@ const styles:any = {
         color: '#ff0000',
         paddingTop: 10,
         paddingBottom: 10
-    },
-    validStyle:{
-        alignSelf: 'center',
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#00ff00',
-        paddingTop: 10,
-        paddingBottom: 10
     }
-
 }
 export { Login };

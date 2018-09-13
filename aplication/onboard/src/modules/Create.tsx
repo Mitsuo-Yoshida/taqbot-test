@@ -5,6 +5,7 @@ import axios from 'axios';
 import RNPickerSelect from 'react-native-picker-select';
 import { Button, Card, CardSection, Input, Spinner } from '../components';
 import { NavigationProps } from './react-native-navigation';
+import {showMessage} from "react-native-flash-message";
 
 interface createProps{
     edition: boolean,
@@ -13,6 +14,7 @@ interface createProps{
     role: string,
     token: string,
     id: string,
+    message: any,
     navigator?: NavigationProps
 }
 
@@ -128,7 +130,13 @@ class Create extends Component<createProps> {
                 this.setState({pressed: false});
                 this.setState({email: '', password: '', name: '', role: ''});
 
-                this.props.navigator!.pop();          
+                this.props.navigator!.pop();
+
+                this.props.message({
+                    message: 'Success',
+                    type: 'success',
+                });
+                          
             })
             .catch(error => {
                 this.setState({error: error.response.data.errors[0].message});

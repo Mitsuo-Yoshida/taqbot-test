@@ -5,6 +5,7 @@ import { FlatList, View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
 import { NavigationProps } from './react-native-navigation';
+import FlashMessage from "react-native-flash-message";
 
 interface welcomeProps {
     token: string,
@@ -32,6 +33,7 @@ interface user {
 class Welcome extends Component<welcomeProps, welcomeState> {
     emptyInitialData: user[] = [];
     state = { token: '', page: 0, data: this.emptyInitialData, pressed:false, error:'' };
+    message: any;
 
     componentWillMount() {
         this.loadMore();
@@ -66,7 +68,7 @@ class Welcome extends Component<welcomeProps, welcomeState> {
         
     }
 
-    onPress(user:user) {
+    onDetailPress(user:user) {
         this.props.navigator!.push({
             screen: 'Detail',
             title: 'Detail',
@@ -81,7 +83,7 @@ class Welcome extends Component<welcomeProps, welcomeState> {
         return (
         < ItemList 
             user = {user}
-            onPress = { () => this.onPress(user) } 
+            onPress = { () => this.onDetailPress(user) } 
         />
         )
     }
@@ -126,7 +128,8 @@ class Welcome extends Component<welcomeProps, welcomeState> {
             title: 'Create',
             passProps: {
                 token:this.props.token,
-                edition: false
+                edition: false,
+                message: (gah:{message:string, type:string}) => this.message.showMessage(gah)
             }
         });
     }
@@ -142,26 +145,20 @@ class Welcome extends Component<welcomeProps, welcomeState> {
                             keyExtractor={ user => String(user.id)}
                             ListFooterComponent={ () => this.renderFooter() }
                         />
-                    </CardSection>    
+                    </CardSection>   
+                     
+                    <Text style={ styles.invalidStyle }>{this.state.error}</Text>
                 </Card>
+
                 <ActionButton
                     buttonColor='#0000ff'
                     onPress={() => this.onCreatePress()}
                 />
+                
+                <FlashMessage ref={(message:any)=> this.message = message } position='top'/>
             </View>
         );
     }
 };
-
-const styles:any = {
-    nameStyle:{
-        alignSelf: 'center',
-        fontSize: 18,
-        fontWeight: '600',
-        color: '#0000ff',
-        paddingTop: 10,
-        paddingBottom: 10
-    }
-}
 
 export { Welcome };
