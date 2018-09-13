@@ -2,8 +2,6 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Card, CardSection } from '../components'
 
-
-
 interface user {
     id: string;
     name: string;
@@ -12,8 +10,6 @@ interface user {
 interface userProp {
     user: user;
 }
-
-
 
 const ItemList = (props: userProp)  => {
     return ( 

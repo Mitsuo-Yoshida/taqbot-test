@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FlatList, AsyncStorage } from 'react-native';
 import { Button, ItemList, Card, CardSection, Spinner } from '../components'
 
-
 interface user{
     id: string;
     name: string;
@@ -14,7 +13,6 @@ interface user{
     createdAt: string;
     updatedAt: string;
 }
-
 
 class Welcome extends Component{
     state = { token: '', data: [], page: 0, pressed:false, error:'' };
@@ -31,7 +29,7 @@ class Welcome extends Component{
                 this.setState({token: this.loggedUser.token })
             }
             else {
-                this.setState({token: 'Failed fetching user' })
+                this.setState({error: 'Failed fetching user' })
             }
         });
     }
@@ -54,14 +52,12 @@ class Welcome extends Component{
         
             const newData = response.data.data;
 
-            this.setState({data: [...data, ...newData], page: this.state.page+1, error: '', pressed: false});
-            
+            this.setState({data: [...data, ...newData], page: this.state.page+1, error: '', pressed: false});    
         })
         .catch(error => {
             this.setState({error: error.response.data.errors[0].message});
             this.setState({pressed: false});
         })
-        
     }
 
     renderItem( user:user ){
@@ -87,7 +83,6 @@ class Welcome extends Component{
         }
     }
     render(){
-        
         return ( 
             <Card>
                 <CardSection>
@@ -102,21 +97,5 @@ class Welcome extends Component{
         );
     }
 };
-
-
-
-
-  
-
-const styles:any = {
-    nameStyle:{
-        alignSelf: 'center',
-        fontSize: 18,
-        fontWeight: '600',
-        color: '#0000ff',
-        paddingTop: 10,
-        paddingBottom: 10
-    }
-}
 
 export { Welcome };
