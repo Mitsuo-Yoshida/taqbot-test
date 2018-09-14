@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native'
-import { Card } from './Card';
 
 interface buttonProps {
     onPress: () => void;
@@ -18,7 +17,7 @@ export const Button = (props: buttonProps) =>{
 const styles: any = {
     buttonStyle: {
         flex: 1,
-        alignSelf: 'stretch',
+        alignSelf: 'flex-end',
         backgroundColor: '#fff',
         borderRadius: 5,
         borderWidth: 1,
